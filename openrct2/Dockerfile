@@ -5,7 +5,7 @@ RUN wget https://github.com/OpenRCT2/OpenRCT2/releases/download/v0.2.5/OpenRCT2-
 RUN tar xfzv OpenRCT2-0.2.5-linux-x86_64.tar.gz
 WORKDIR OpenRCT2
 RUN chmod +x openrct2-cli
-ENTRYPOINT [ "openrc2-cli" ]
+ENTRYPOINT [ "./openrc2-cli" ]
 
 
 
