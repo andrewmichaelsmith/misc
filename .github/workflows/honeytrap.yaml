@@ -38,7 +38,7 @@ jobs:
         IMAGE_VERSION=$GITHUB_RUN_NUMBER
         docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD https://ghcr.io
         git clone https://github.com/andrewmichaelsmith/honeytrap.git
-        git checkout docker
         cd honeytrap
+        git checkout docker
         docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t ghcr.io/andrewmichaelsmith/honeytrap:$IMAGE_VERSION --output type=registry .
 
