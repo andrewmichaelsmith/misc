@@ -40,5 +40,5 @@ jobs:
         git clone https://github.com/andrewmichaelsmith/honeytrap.git
         cd honeytrap
         git checkout docker
-        docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t ghcr.io/andrewmichaelsmith/honeytrap:$IMAGE_VERSION --output type=registry .
+        docker buildx build --platform linux/amd64 -t ghcr.io/andrewmichaelsmith/honeytrap:$IMAGE_VERSION --output type=registry .
 
