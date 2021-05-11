@@ -1,0 +1,43 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '30 1 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - 
+      name: Checkout
+      uses: actions/checkout@v1
+    - 
+      name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+      with:
+        platforms: all
+    -
+      name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v1
+      with:
+        version: latest
+    -
+      name: Available platforms
+      run: echo ${{ steps.buildx.outputs.platforms }}
+    - name: Build the Docker image
+      env: # Or as an environment variable
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      working-directory: .
+      run: |
+        IMAGE_VERSION=$GITHUB_RUN_NUMBER
+        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD https://ghcr.io
+        git clone https://github.com/andrewmichaelsmith/dnsleak.git
+        cd dnsleak
+        docker buildx build --platform linux/amd64 -t ghcr.io/andrewmichaelsmith/dnsleak:$IMAGE_VERSION --output type=registry .
+
